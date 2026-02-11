@@ -1,11 +1,11 @@
-local script = loadstring(game:HttpGet("https://raw.githubusercontent.com/BuntingFight/Roblox-Projects/refs/heads/main/pathfinding-module/script.luau"))()
+local pathfind_module = loadstring(game:HttpGet("https://raw.githubusercontent.com/BuntingFight/Roblox-Projects/refs/heads/main/pathfinding-module/script.luau"))()()
 
-local MODEL_ = script.MODEL_
-local PART_ = script.PART_
+local MODEL_ = pathfind_module.MODEL_
+local PART_ = pathfind_module.PART_
 
 getgenv().pathfind_ignore = {}
 
-script.pathfind(Vector3.new(), getgenv().pathfind_ignore)
+pathfind_module.pathfind(Vector3.new(), getgenv().pathfind_ignore)
 
 --[[
 
@@ -27,7 +27,7 @@ getgenv().pathfind_ignore = {
     MODEL_(workspace.model_here),
 }
 
-3. ignore all parts with a specific name
+3. ignore multiple specific models
 
 getgenv().pathfind_ignore = {
     MODEL_(workspace.Model1),
@@ -55,7 +55,7 @@ getgenv().pathfind_ignore = {
     PART_()("Part"),
 }
 
-3. Ignore multiple parts types by name
+3. ignore multiple parts types by name
 
 getgenv().pathfind_ignore = {
     PART_()("Part1"),
@@ -63,7 +63,7 @@ getgenv().pathfind_ignore = {
     PART_()("Part3"),
 }
 
-4. ignore specific part
+4. ignore specific parts
 
 getgenv().pathfind_ignore = {
     PART_(workspace.Part1),
@@ -73,7 +73,7 @@ getgenv().pathfind_ignore = {
 
 COMBINED EXAMPLES:
 
-1. ignore all models + parts
+1. ignore all models + parts with specific name
 
 getgenv().pathfind_ignore = {
     MODEL_(),
@@ -96,14 +96,11 @@ getgenv().pathfind_ignore = {
     PART_()("Part3"),
 }
 
-
-
 To remove a specific object, simply delete the line
-If you don't want to use the ignore list, just leave it blank
+If you don't want to use the ignore list, just leave it blank: {}
 
 To add something to it, add it as it corresponds to the example, 
 the main thing is to change the names to your own (except for workspace), 
 otherwise nothing will work for you
-
 
 ]]
