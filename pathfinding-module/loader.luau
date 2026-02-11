@@ -1,4 +1,4 @@
-local script = loadstring(game:HttpGet(""))()
+local script = loadstring(game:HttpGet("https://raw.githubusercontent.com/BuntingFight/Roblox-Projects/refs/heads/main/pathfinding-module/script.luau"))()
 
 local MODEL_ = script.MODEL_
 local PART_ = script.PART_
@@ -104,5 +104,6 @@ If you don't want to use the ignore list, just leave it blank
 To add something to it, add it as it corresponds to the example, 
 the main thing is to change the names to your own (except for workspace), 
 otherwise nothing will work for you
+
 
 ]]
