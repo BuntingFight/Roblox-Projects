@@ -91,6 +91,7 @@ return function()
             warn("Pathfinding already in progress")
             return false
         end
+
         is_pathfinding = true
         local character = player.Character or player.CharacterAdded:Wait()
         local humanoid = character:WaitForChild("Humanoid")
@@ -115,6 +116,7 @@ return function()
         local body_gyro = Instance.new("BodyGyro")
         body_gyro.MaxTorque = Vector3.zero
         body_gyro.Parent = root_part
+
         local function cleanup()
             if linear_velocity then
                 linear_velocity.VectorVelocity = Vector3.zero
@@ -138,6 +140,7 @@ return function()
             humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
             is_pathfinding = false
         end
+
         local settings = {
             AgentRadius = 2,
             AgentHeight = 5,
@@ -146,21 +149,26 @@ return function()
             WaypointSpacing = 3,
             Costs = {}
         }
+
         if ignore_list then
             local parts_to_ignore = process_ignore_list(ignore_list)
             for _, part in ipairs(parts_to_ignore) do
                 settings.Costs[part.Material] = math.huge
             end
         end
+
         local path = PathfindingService:CreatePath(settings)
+
         local success = pcall(function()
             path:ComputeAsync(root_part.Position, target_position)
         end)
+
         if not success or path.Status ~= Enum.PathStatus.Success then
             warn("Pathfinding failed")
             cleanup()
             return false
         end
+
         local waypoints = path:GetWaypoints()
         for index, waypoint in ipairs(waypoints) do
             local target = waypoint.Position + Vector3.new(0, height_offset, 0)
@@ -191,6 +199,7 @@ return function()
                 task.wait()
             end
         end
+
         cleanup()
         return true
     end
