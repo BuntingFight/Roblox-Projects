@@ -90,6 +90,7 @@ local function pathfind(target_position, ignore_list)
         warn("Pathfinding already in progress")
         return false
     end
+
     is_pathfinding = true
     local character = player.Character or player.CharacterAdded:Wait()
     local humanoid = character:WaitForChild("Humanoid")
@@ -114,6 +115,7 @@ local function pathfind(target_position, ignore_list)
     local body_gyro = Instance.new("BodyGyro")
     body_gyro.MaxTorque = Vector3.zero
     body_gyro.Parent = root_part
+
     local function cleanup()
         if linear_velocity then
             linear_velocity.VectorVelocity = Vector3.zero
@@ -137,6 +139,7 @@ local function pathfind(target_position, ignore_list)
         humanoid:ChangeState(Enum.HumanoidStateType.GettingUp)
         is_pathfinding = false
     end
+
     local settings = {
         AgentRadius = 2,
         AgentHeight = 5,
@@ -145,21 +148,26 @@ local function pathfind(target_position, ignore_list)
         WaypointSpacing = 3,
         Costs = {}
     }
+
     if ignore_list then
         local parts_to_ignore = process_ignore_list(ignore_list)
         for _, part in ipairs(parts_to_ignore) do
             settings.Costs[part.Material] = math.huge
         end
     end
+
     local path = PathfindingService:CreatePath(settings)
+
     local success = pcall(function()
         path:ComputeAsync(root_part.Position, target_position)
     end)
+
     if not success or path.Status ~= Enum.PathStatus.Success then
         warn("Pathfinding failed")
         cleanup()
         return false
     end
+
     local waypoints = path:GetWaypoints()
     for index, waypoint in ipairs(waypoints) do
         local target = waypoint.Position + Vector3.new(0, height_offset, 0)
@@ -190,13 +198,11 @@ local function pathfind(target_position, ignore_list)
             task.wait()
         end
     end
+
     cleanup()
     return true
 end
 
-local ignore_list = {
-    MODEL_(workspace.Building),
-    PART_(workspace.DangerousPart),
-}
+local ignore_list = {}
 
 pathfind(Vector3.new(), ignore_list)
